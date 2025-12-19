@@ -1,6 +1,6 @@
-import {SITIES} from '../../../../const.ts';
+import {SITIES} from '../../../const.ts';
 
-export default function TabsScreen (): JSX.Element {
+export default function TabsFragment (): JSX.Element {
   return (
     <div className="tabs">
       <section className="locations container">

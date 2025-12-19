@@ -1,4 +1,4 @@
-export default function FooterScreen (): JSX.Element {
+export default function FooterBlock (): JSX.Element {
   return (
     <footer className="footer container">
       <a className="footer__logo-link" href="main.html">

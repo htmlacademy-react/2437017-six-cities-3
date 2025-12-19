@@ -1,17 +1,12 @@
 import ButtonBookmark from './button-bookmark.tsx';
 import { Offer } from '../../mock/offers.ts';
 
-export default function CardScreen({
-  title,
-  type,
-  price,
-  previewImage,
-  // city,
-  // location,
-  // isFavorite,
-  isPremium,
-  rating,
-} :Offer) :JSX.Element {
+interface OfferCardProps {
+  offer: Offer;
+}
+
+export default function CardBlock({ offer} :OfferCardProps) :JSX.Element {
+  const { title, type, price, previewImage, isPremium, rating } = offer;
   return (
     <article className="cities__card place-card">
       {isPremium &&

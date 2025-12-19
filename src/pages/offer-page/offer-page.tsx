@@ -1,10 +1,10 @@
-import HeaderScreen from '../../components/header-screen/header-screen.tsx';
-import OfferGallery from '../offer-scren/components/offer-gallery/offer-gallery.tsx';
+import HeaderBlock from '../../components/header-block.tsx';
+import OfferGallery from './components/gallery-fragment.tsx';
 
-export default function OfferScreen () {
+export default function OfferPage () {
   return (
     <div className="page">
-      <HeaderScreen/>
+      <HeaderBlock/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferGallery/>

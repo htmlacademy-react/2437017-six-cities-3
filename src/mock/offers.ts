@@ -1,5 +1,5 @@
 //интерфейс для пропсов
-export interface CardProps {
+export interface Offer {
   id?: string;
   title: string;
   type: string;
@@ -24,7 +24,7 @@ export interface CardProps {
 }
 
 
-const Cards :CardProps[] = [
+const offers :Offer[] = [
   {
     id: 'b5dee896-9d51-4f8c-a877-8831d20d70ea',
     title: 'Wood and stone place',
@@ -96,4 +96,4 @@ const Cards :CardProps[] = [
   },
 ];
 
-export { Cards };
+export { offers };
