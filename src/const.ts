@@ -12,10 +12,16 @@ const SITIES = [
 ];
 
 enum AppRoute {
-  MAIN = '/',
-  LOGIN = '/login',
-  FAVORITE = '/favorites',
-  OFFER = '/offer/:id',
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
 }
 
-export{Setting, SITIES, AppRoute};
+enum AuthorizationStatus {
+  Auth ='AUTH',
+  NoAuth ='NO_AUTH',
+  Unknown ='UNKNOWN',
+}
+
+export{Setting, SITIES, AppRoute, AuthorizationStatus};

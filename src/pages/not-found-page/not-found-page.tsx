@@ -1,10 +1,13 @@
-export default function NotFoundPage () {
+
+import { Link } from 'react-router-dom';
+
+export default function NotFoundPage (): JSX.Element {
   return (
-    <div>
+    <main className="page__main page__main--index">
       <p> «404 Not Found» </p>
-      <a className="locations__item-link tabs__item" href="#">
+      <Link className="locations__item-link tabs__item" to='/'>
         <span> Главная страница </span>
-      </a>
-    </div>
+      </Link>
+    </main>
   );
 }
