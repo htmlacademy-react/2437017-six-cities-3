@@ -4,7 +4,7 @@ import OfferGallery from './components/gallery-fragment.tsx';
 export default function OfferPage () {
   return (
     <div className="page">
-      <HeaderBlock/>
+      <HeaderBlock showAuthInfo/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferGallery/>

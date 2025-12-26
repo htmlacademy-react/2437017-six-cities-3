@@ -8,7 +8,7 @@ import { offers } from '../../mock/offers.ts';
 export default function MainPage () {
   return (
     <div className="page page--gray page--main">
-      <HeaderBlock/>
+      <HeaderBlock showAuthInfo/>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
