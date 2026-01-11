@@ -1,18 +1,29 @@
-// import HeaderBlock from '../../components/layout/header-block.tsx';
 import TabsFragment from './components/tabs-fragment.tsx';
 import SortingFragment from './components/sorting-fragment.tsx';
 import CardBlock from '../../components/card-block/card-block.tsx';
 import MapBlock from '../../components/map-block.tsx';
-import { offers } from '../../mock/offers.ts';
+import { Offer } from '../../types-props.ts';
+import { useState } from 'react';
 
-export default function MainPage () {
+interface MainPageProps {
+  offers: Offer[];
+}
+
+export default function MainPage (props: MainPageProps) {
+
+  const { offers } = props;
+
+  const [activeCity, setactiveCity] = useState('Paris');
+  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
   return (
     <div className="page page--gray page--main">
-      {/* <HeaderBlock showAuthInfo/> */}
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <TabsFragment/>
+        <TabsFragment
+          activeCity = {activeCity}
+          setactiveCity = {setactiveCity}
+        />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
@@ -20,7 +31,7 @@ export default function MainPage () {
               <b className="places__found">312 places to stay in Amsterdam</b>
               <SortingFragment/>
               <div className="cities__places-list places__list tabs__content">
-                { offers.map((offer) => (
+                { filteredOffers.map((offer) => (
                   <CardBlock
                     key = { offer.id }
                     offer = { offer }
