@@ -3,11 +3,13 @@ import OfferWrapper from './components/offer__wrapper.tsx';
 import CardBlock from '../../components/card-block/card-block.tsx';
 import { Helmet } from 'react-helmet-async';
 import { Offer } from '../../types-props.ts';
+import { AuthorizationStatus } from '../../const.ts';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 interface OfferPageProps {
   offers: Offer[];
+  authorizationStatus: AuthorizationStatus;
 }
 
 function getSelectedOffer (offers: Offer[], currentOffer?: Offer) {
@@ -20,7 +22,7 @@ function getSelectedOffer (offers: Offer[], currentOffer?: Offer) {
   )).slice(0, 3);
 }
 
-export default function OfferPage ({ offers } : OfferPageProps): JSX.Element {
+export default function OfferPage ({ offers, authorizationStatus } : OfferPageProps): JSX.Element {
 
   const [activeOfferId, setActiveOfferId] = useState<Offer | null>(null);
   const { id } = useParams<{ id: string }>();
@@ -45,12 +47,15 @@ export default function OfferPage ({ offers } : OfferPageProps): JSX.Element {
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferGallery/>
-          <OfferWrapper currentOffer = {currentOffer}/>
+          <OfferWrapper
+            currentOffer = {currentOffer}
+            authorizationStatus = {authorizationStatus}
+          />
           <section className="offer__map map"></section>
         </section>
         <div className="container">
           <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <h2 className="near-places__title">Other places in the neighborhood</h2>
             <div className="near-places__list places__list">
               {nearbyOffers.map((offer) => (
                 <CardBlock

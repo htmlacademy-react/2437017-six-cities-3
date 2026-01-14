@@ -1,22 +1,28 @@
-// import HeaderBlock from '../../components/layout/header-block.tsx';
 import FooterBlock from '../../components/layout/footer-block.tsx';
-// import CardBlock from '../../components/card-block/card-block.tsx';
+import CardBlock from '../../components/card-block/card-block.tsx';
 import { Helmet } from 'react-helmet-async';
+import { Offer } from '../../types-props.ts';
 
-export default function FavoritesScreen () {
+interface FavoritesScreenProps {
+  offers: Offer[];
+}
+
+export default function FavoritesScreen ({offers}: FavoritesScreenProps) {
+
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
     <div className="page">
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>
-      {/* <HeaderBlock showAuthInfo/> */}
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {/* <li className="favorites__locations-items">
+              <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
                     <a className="locations__item-link" href="#">
@@ -25,7 +31,13 @@ export default function FavoritesScreen () {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <article className="favorites__card place-card">
+                  {favoriteOffers.map((offer) => (
+                    <CardBlock
+                      key = {offer.id}
+                      offer={offer}
+                    />
+                  ))}
+                  {/* <article className="favorites__card place-card">
                     <div className="place-card__mark">
                       <span>Premium</span>
                     </div>
@@ -90,9 +102,9 @@ export default function FavoritesScreen () {
                       </h2>
                       <p className="place-card__type">Room</p>
                     </div>
-                  </article>
+                  </article> */}
                 </div>
-              </li> */}
+              </li>
 
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">

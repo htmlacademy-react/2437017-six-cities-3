@@ -6,7 +6,7 @@ import { AppRoute } from '../../const.ts';
 
 export default function Layout (): JSX.Element {
   const location = useLocation();
-  // Проверяем на какой странице мы
+
   const isOfferPage = location.pathname.startsWith(AppRoute.Offer); // Динамический путь
   const isLoginPage = location.pathname === AppRoute.Login.toString(); // Точный путь
   const showFooter = isOfferPage || isLoginPage;
