@@ -9,7 +9,8 @@ export default function Layout (): JSX.Element {
 
   const isOfferPage = location.pathname.startsWith(AppRoute.Offer); // Динамический путь
   const isLoginPage = location.pathname === AppRoute.Login.toString(); // Точный путь
-  const showFooter = isOfferPage || isLoginPage;
+  const isFavoritePage = location.pathname === AppRoute.Favorites.toString(); // Точный путь
+  const showFooter = isOfferPage || isLoginPage || isFavoritePage ;
 
   return (
     <>
