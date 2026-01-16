@@ -9,7 +9,6 @@ import Layout from '../layout/layout.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import { Offer } from '../../types-props.ts';
-
 interface AppProps {
   offers: Offer[];
   authorizationStatus: AuthorizationStatus;

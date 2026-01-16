@@ -1,14 +1,16 @@
 import ButtonBookmark from './button-bookmark.tsx';
 import { Offer } from '../../types-props.ts';
 import { Link } from 'react-router-dom';
-
+import { useState } from 'react';
 interface OfferCardProps {
   offer: Offer;
   handleHover?: (offer:Offer | null) => void;
 }
 
 export default function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.Element {
-  const { id, title, type, price, previewImage, isPremium, rating } = offer;
+  const [localOffer, setLocalOffer] = useState<Offer>(offer);
+
+  const { id, title, type, price, previewImage, isPremium, isFavorite, rating } = localOffer;
 
   function handleCardMouseEnter () {
     if (handleHover) {
@@ -20,6 +22,10 @@ export default function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.
     if (handleHover) {
       handleHover(null);
     }
+  }
+
+  function handleStatusButton (value:boolean) {
+    setLocalOffer({...localOffer, isFavorite: value});
   }
 
   return (
@@ -42,7 +48,10 @@ export default function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <ButtonBookmark/>
+          <ButtonBookmark
+            handleStatusButton = {handleStatusButton}
+            isFavorite = {isFavorite}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

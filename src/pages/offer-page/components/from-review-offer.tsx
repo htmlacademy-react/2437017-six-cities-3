@@ -9,8 +9,6 @@ export default function ReviewForm () {
     review: '',
   });
 
-  console.log(formData);
-
   function fieldChangeHandle (evt:ChangeHandler) {
     const { name, value, type } = evt.target;
 
