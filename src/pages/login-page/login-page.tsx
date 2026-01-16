@@ -1,4 +1,3 @@
-import HeaderBlock from '../../components/header-block.tsx';
 import { Helmet } from 'react-helmet-async';
 
 export default function LoginPage (): JSX.Element {
@@ -7,7 +6,6 @@ export default function LoginPage (): JSX.Element {
       <Helmet>
         <title>6 cities: authorization</title>
       </Helmet>
-      <HeaderBlock showAuthInfo ={false}/>
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">

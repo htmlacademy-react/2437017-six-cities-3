@@ -1,18 +1,31 @@
-import {SITIES} from '../../../const.ts';
-import { NavLink } from 'react-router-dom';
+import {CITIES} from '../../../const.ts';
+import { Link } from 'react-router-dom';
+interface TabsFragmentProps {
+  activeCity: string;
+  setActiveCity: (city: string) => void;
+}
 
-export default function TabsFragment (): JSX.Element {
+export default function TabsFragment (props:TabsFragmentProps): JSX.Element {
+
+  const {activeCity, setActiveCity} = props;
+
+  function getActiveClass (city: string): string {
+    return city === activeCity ? 'tabs__item--active' : '';
+  }
+
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {SITIES.map((city) => (
+          {CITIES.map((city) => (
             <li className="locations__item" key={city}>
-              <NavLink to = '' className={({ isActive }) =>
-                `locations__item-link tabs__item${isActive ? ' tabs__item--active' : ''}`}
+              <Link to = '' className= {`locations__item-link tabs__item ${getActiveClass(city)}`}
+                onClick = {() => {
+                  setActiveCity(city);
+                }}
               >
                 <span>{city}</span>
-              </NavLink>
+              </Link>
             </li>
           ))}
         </ul>
