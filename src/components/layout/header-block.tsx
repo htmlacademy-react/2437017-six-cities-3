@@ -4,7 +4,7 @@ interface HeaderProps {
   showAuthInfo: boolean;
 }
 
-export default function HeaderScreen ({showAuthInfo} :HeaderProps): JSX.Element {
+export default function HeaderBlock ({showAuthInfo} :HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">

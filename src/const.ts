@@ -2,7 +2,7 @@ const Setting = {
   VALUE_CARD: 10,
 };
 
-const SITIES = [
+const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
@@ -10,6 +10,15 @@ const SITIES = [
   'Hamburg',
   'Dusseldorf',
 ];
+
+const RATING_STARS = [
+  { value: 5, title: 'perfect' },
+  { value: 4, title: 'good' },
+  { value: 3, title: 'not bad' },
+  { value: 2, title: 'badly' },
+  { value: 1, title: 'terribly' }
+] as const;
+
 
 enum AppRoute {
   Main = '/',
@@ -24,4 +33,4 @@ enum AuthorizationStatus {
   Unknown ='UNKNOWN',
 }
 
-export{Setting, SITIES, AppRoute, AuthorizationStatus};
+export{Setting, CITIES, RATING_STARS, AppRoute, AuthorizationStatus};

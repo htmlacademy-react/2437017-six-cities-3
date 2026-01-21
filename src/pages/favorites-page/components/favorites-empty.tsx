@@ -1,10 +1,10 @@
-import HeaderBlock from '../../../components/header-block.tsx';
-import FooterBlock from '../../../components/footer-block.tsx';
+// import HeaderBlock from '../../../components/layout/header-block.tsx';
+// import FooterBlock from '../../../components/layout/footer-block.tsx';
 
-export default function FavoritesScreen () {
+export default function FavoritesBlock () {
   return (
     <div className="page">
-      <HeaderBlock showAuthInfo/>
+      {/* <HeaderBlock showAuthInfo/> */}
 
       <main className="page__main page__main--favorites page__main--favorites-empty">
         <div className="page__favorites-container container">
@@ -17,7 +17,7 @@ export default function FavoritesScreen () {
           </section>
         </div>
       </main>
-      <FooterBlock/>
+      {/* <FooterBlock/> */}
     </div>
   );
 }
