@@ -13,9 +13,10 @@ export default function MainPage (): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
 
   const [activeCity, setActiveCity] = useState('Paris');
-  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
 
   function handleHover (offer :Offer | null) {
     if (offer) {
