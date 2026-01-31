@@ -5,13 +5,8 @@ import MainEmpty from './components/main-empty.tsx';
 
 import { Offer } from '../../types-props.ts';
 
-
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks/useStore.ts';
-
-// interface MainPageProps {
-//   offers: Offer[];
-// }
 
 export default function MainPage (): JSX.Element {
 

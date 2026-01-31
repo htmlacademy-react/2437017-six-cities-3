@@ -6,12 +6,6 @@ import { CITIES } from '../../const.ts';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks/useStore.ts';
 
-// import { Offer } from '../../types-props.ts';
-
-// interface FavoritesScreenProps {
-//   offers: Offer[];
-// }
-
 export default function FavoritesScreen () {
 
   const offers = useAppSelector((state) => state.offers);
