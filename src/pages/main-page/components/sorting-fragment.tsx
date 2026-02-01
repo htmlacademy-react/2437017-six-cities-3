@@ -23,7 +23,7 @@ export default function SortingFragment () :JSX.Element {
 
   function fn (evnt :MouseEvent<HTMLUListElement>) {
     const element = evnt.target as HTMLLIElement;
-    const textSorting:string = element.textContent;
+    const textSorting:string | null = element.textContent;
     if (textSorting) {
       setActivePlace(textSorting);
     }
