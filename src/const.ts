@@ -19,6 +19,12 @@ const RATING_STARS = [
   { value: 1, title: 'terribly' }
 ] as const;
 
+const SORTINGS = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first',
+];
 
 enum AppRoute {
   Main = '/',
@@ -33,4 +39,4 @@ enum AuthorizationStatus {
   Unknown ='UNKNOWN',
 }
 
-export{Setting, CITIES, RATING_STARS, AppRoute, AuthorizationStatus};
+export{Setting, CITIES, RATING_STARS, AppRoute, AuthorizationStatus, SORTINGS};
