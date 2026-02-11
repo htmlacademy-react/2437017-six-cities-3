@@ -1,19 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { fetchAllOffers } from './async-actions/offers-action';
-import { toggleFavorite } from './action';
+import { toggleFavorite, requireAuthorization } from './action';
 
 import { Offer } from '../types-props';
-import { RequestStatus } from '../const';
+import { RequestStatus, AuthorizationStatus } from '../const';
 
 type OffersState = {
   offers: Offer[];
   status: RequestStatus;
+  authorizationStatus: AuthorizationStatus;
 }
 
 const initialState:OffersState = {
   offers: [],
   status: RequestStatus.Idle,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -30,6 +32,10 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(fetchAllOffers.rejected, (state) => {
       state.status = RequestStatus.Failed;
+    })
+
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     })
 
     .addCase(toggleFavorite, (state, action) => {

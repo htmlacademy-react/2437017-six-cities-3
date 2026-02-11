@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { useEffect } from 'react';
 
 import MainPage from '../../pages/main-page/main-page.tsx';
 import OfferPage from '../../pages/offer-page/offer-page.tsx';
@@ -9,13 +10,21 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page.tsx';
 
 import Layout from '../layout/layout.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
-import { AppRoute, AuthorizationStatus } from '../../const.ts';
-interface AppProps {
-  authorizationStatus: AuthorizationStatus;
-}
+import { AppRoute } from '../../const.ts';
+import { checkAuthAction } from '../../store/async-actions/authorization-action.ts';
 
-export default function App(props: AppProps) {
-  const { authorizationStatus} = props;
+import { useAppSelector, useAppDispatch } from '../../hooks/useStore.ts';
+
+
+export default function App() {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
