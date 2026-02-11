@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useStore.ts';
 
-import { Offer } from '../../types-props.ts';
+import { Offer } from '../../types/types-props.ts';
 
 import { AuthorizationStatus } from '../../const.ts';
 

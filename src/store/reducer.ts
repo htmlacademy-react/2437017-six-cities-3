@@ -3,7 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { fetchAllOffers } from './async-actions/offers-action';
 import { toggleFavorite, requireAuthorization } from './action';
 
-import { Offer } from '../types-props';
+import { Offer } from '../types/types-props';
 import { RequestStatus, AuthorizationStatus } from '../const';
 
 type OffersState = {

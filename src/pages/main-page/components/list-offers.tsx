@@ -1,6 +1,6 @@
 import SortingFragment from './sorting-fragment.tsx';
 import CardBlock from '../../../components/card-block/card-block.tsx';
-import { Offer } from '../../../types-props.ts';
+import { Offer } from '../../../types/types-props.ts';
 import { SORTING } from '../../../const.ts';
 
 import { useState, useEffect } from 'react';

@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { Offer } from '../../types-props.ts';
+import { Offer } from '../../types/types-props.ts';
 
 interface useMapProps {
   mapContainerRef: React.RefObject<HTMLElement | null>;
