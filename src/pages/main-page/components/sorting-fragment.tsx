@@ -1,31 +1,23 @@
-import { useState, MouseEvent } from 'react';
-// import { useAppSelector } from '../../../hooks/useStore';
-// import { useAppDispatch } from '../../../hooks/useStore.ts';
+import { MouseEvent } from 'react';
 
+import { SORTING } from '../../../const';
 
-const SORTINGS = [
-  'Popular',
-  'Price: low to high',
-  'Price: high to low',
-  'Top rated first',
-];
+interface SortingFragmentProps {
+  handleSortingChange: (sorting: string) => void;
+  activePlace:string;
+}
 
-export default function SortingFragment () :JSX.Element {
-
-  // const offers = useAppSelector((state) => state.offers);
-  // const dispatch = useAppDispatch();
-
-  const [activePlace, setActivePlace] = useState('Popular');
+export default function SortingFragment ({handleSortingChange, activePlace}:SortingFragmentProps) :JSX.Element {
 
   function getActiveClass (sort: string): string {
     return sort === activePlace ? 'places__option--active' : '';
   }
 
-  function fn (evnt :MouseEvent<HTMLUListElement>) {
-    const element = evnt.target as HTMLLIElement;
-    const textSorting:string | null = element.textContent;
+  function fn (event: MouseEvent<HTMLUListElement>) {
+    const element = event.target as HTMLLIElement;
+    const textSorting: string | null = element.textContent;
     if (textSorting) {
-      setActivePlace(textSorting);
+      handleSortingChange(textSorting);
     }
   }
 
@@ -39,17 +31,13 @@ export default function SortingFragment () :JSX.Element {
         </svg>
       </span>
       <ul onClick={(fn)} className="places__options places__options--custom places__options--opened">
-        {SORTINGS.map((sort) => (
+        {SORTING.map((sort) => (
           <li key={sort}
             className={`places__option ${getActiveClass(sort)}`}
             tabIndex={0}
           >{sort}
           </li>
         ))}
-        {/* <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-        <li className="places__option" tabIndex={0}>Price: low to high</li>
-        <li className="places__option" tabIndex={0}>Price: high to low</li>
-        <li className="places__option" tabIndex={0}>Top rated first</li> */}
       </ul>
     </form>
   );
