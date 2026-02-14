@@ -21,6 +21,7 @@ export default function SortingFragment ({handleSortingChange, activePlace}:Sort
     }
   }
 
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
