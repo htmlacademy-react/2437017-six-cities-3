@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { dropToken } from '../../services/token';
 
 import { requireAuthorization } from '../action';
 import { State, AppDispatch } from '../type-state';
@@ -18,6 +19,7 @@ export const checkAuthAction = createAsyncThunk<void, void, {
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     }catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dropToken();
     }
   }
 );

@@ -2,10 +2,14 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { fetchAllOffers } from './async-actions/offers-action';
 import { fetchOfferById } from './async-actions/offer-action';
+
 import { toggleFavorite } from './action';
+import { requireAuthorization } from './action';
+import { loginAction } from './async-actions/login-action';
 
 import { Offer } from '../types/offer-data';
 import { RequestStatus, AuthorizationStatus } from '../const';
+import { UserData } from '../types/user-data';
 
 
 type OffersState = {
@@ -13,6 +17,8 @@ type OffersState = {
   offer: Offer | null;
   status: RequestStatus;
   authStatus: AuthorizationStatus;
+  userData: UserData | null;
+
 }
 
 const initialState:OffersState = {
@@ -20,6 +26,7 @@ const initialState:OffersState = {
   offer: null,
   status: RequestStatus.Idle,
   authStatus: AuthorizationStatus.Unknown,
+  userData: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -50,6 +57,19 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchOfferById .rejected, (state) => {
       state.status = RequestStatus.Failed;
       state.offer = null;
+    })
+
+    .addCase(loginAction.fulfilled, (state, action) => {
+      state.userData = action.payload;
+      state.authStatus = AuthorizationStatus.Auth;
+    })
+    .addCase(loginAction.rejected, (state) => {
+      state.userData = null;
+      state.authStatus = AuthorizationStatus.NoAuth;
+    })
+
+    .addCase(requireAuthorization, (state, action) => {
+      state.authStatus = action.payload;
     })
 
     .addCase(toggleFavorite, (state, action) => {

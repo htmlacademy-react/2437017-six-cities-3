@@ -21,6 +21,7 @@ export default function ButtonBookmark ({ id, isFavorite, variant}:ButtonBookmar
   const dispatch = useAppDispatch();
 
   function handleStatusButton (value:string) {
+
     dispatch(toggleFavorite(value));
   }
 
