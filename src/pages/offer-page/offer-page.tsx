@@ -7,26 +7,13 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useStore.ts';
 
-import { fetchOfferById } from '../../store/async-actions/offer-action.ts';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferById } from '../../store/async-actions/offer-action.ts';
 
-import { Offer } from '../../types/offer-data.ts';
-
-
-function getSelectedOffer (offers: Offer[], currentOffer: Offer | null) {
-  if(!currentOffer) {
-    return [];
-  }
-
-  return offers.filter((offer) => (
-    offer.id !== currentOffer.id &&
-    offer.city.name === currentOffer?.city.name
-  )).slice(0, 3);
-}
 
 export default function OfferPage (): JSX.Element {
 
-  const offers = useAppSelector((state) => state.offers);
   const currentOffer = useAppSelector((state) => state.offer);
+  const nearby = useAppSelector((state) => state.nearbyOffers);
   const authorizationStatus = useAppSelector((state) => state.authStatus);
 
   const dispatch = useAppDispatch();
@@ -36,12 +23,14 @@ export default function OfferPage (): JSX.Element {
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferById(id));
+      dispatch(fetchNearbyOffersAction(id));
+      dispatch(fetchCommentsAction(id));
     }
   }, [dispatch, id]);
 
-  const nearbyOffers = getSelectedOffer(offers, currentOffer); // находим ближайшие предложения, разные id, одно name
 
-  const mapOffers = currentOffer ? [currentOffer, ...nearbyOffers] : [];
+  const newNearby = nearby.slice(0, 3);
+  const mapOffers = currentOffer ? [currentOffer, ...nearby] : [];
 
 
   return (
@@ -67,7 +56,7 @@ export default function OfferPage (): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighborhood</h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.map((offer) => (
+              {newNearby.map((offer) => (
                 <CardBlock
                   key = {offer.id}
                   offer={offer}

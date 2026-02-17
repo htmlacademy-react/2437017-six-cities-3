@@ -4,6 +4,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Offer } from '../../types/offer-data';
 import { State, AppDispatch } from '../type-state';
 import { APIRoute } from '../../const';
+import { CommentData } from '../../types/comment-data';
+
 
 export const fetchOfferById = createAsyncThunk<Offer, string,{
   state: State;
@@ -15,5 +17,32 @@ export const fetchOfferById = createAsyncThunk<Offer, string,{
   async(offerId, {extra:api}) => {
     const response = await api.get<Offer>(`${APIRoute.Offers}/${offerId}`);
     return response.data;
+  }
+);
+
+// Загрузка предложений рядом
+export const fetchNearbyOffersAction = createAsyncThunk<Offer[], string, {
+  state: State;
+  dispatch: AppDispatch;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchNearby',
+  async (offerId: string, { extra: api }) => {
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${offerId}/nearby`);
+    return data;
+  }
+);
+
+
+// Загрузка комментарии к оферу
+export const fetchCommentsAction = createAsyncThunk<CommentData[], string, {
+  state: State;
+  dispatch: AppDispatch;
+  extra: AxiosInstance;
+}>(
+  'offer/fetchComments',
+  async (offerId: string, { extra: api }) => {
+    const { data } = await api.get<CommentData[]>(`${APIRoute.Comments}/${offerId}`);
+    return data;
   }
 );

@@ -1,20 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { fetchAllOffers } from './async-actions/offers-action';
-import { fetchOfferById } from './async-actions/offer-action';
+import { fetchCommentsAction, fetchOfferById } from './async-actions/offer-action';
 
 import { fetchFavoritesAction, favoriteAction } from './async-actions/favorite-action';
 import { requireAuthorization } from './action';
 import { loginAction, logoutAction } from './async-actions/login-action';
+import { fetchNearbyOffersAction } from './async-actions/offer-action';
 
 import { Offer } from '../types/offer-data';
 import { RequestStatus, AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
+import { CommentData } from '../types/comment-data';
 
 
 type OffersState = {
   offers: Offer[];
   offer: Offer | null;
+  nearbyOffers: Offer[];
+  comments: CommentData[];
   status: RequestStatus;
   authStatus: AuthorizationStatus;
   userData: UserData | null;
@@ -24,6 +28,8 @@ type OffersState = {
 const initialState:OffersState = {
   offers: [],
   offer: null,
+  nearbyOffers: [],
+  comments: [],
   status: RequestStatus.Idle,
   authStatus: AuthorizationStatus.Unknown,
   userData: null,
@@ -58,6 +64,21 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchOfferById .rejected, (state) => {
       state.status = RequestStatus.Failed;
       state.offer = null;
+    })
+
+    .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload; // сохраняем предложения рядом
+    })
+    .addCase(fetchNearbyOffersAction.rejected, (state) => {
+      state.nearbyOffers = []; // при ошибке - пустой массив
+    })
+
+    .addCase(fetchCommentsAction.fulfilled, (state, action) => {
+      state.comments = action.payload;
+    })
+
+    .addCase(fetchCommentsAction.rejected, (state) => {
+      state.comments = []; // при ошибке - пустой массив
     })
 
     .addCase(loginAction.fulfilled, (state, action) => {

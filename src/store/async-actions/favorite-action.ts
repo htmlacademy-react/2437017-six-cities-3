@@ -36,3 +36,4 @@ export const favoriteAction = createAsyncThunk<Offer, ChangeFavoriteStatus, {
 
   }
 );
+
