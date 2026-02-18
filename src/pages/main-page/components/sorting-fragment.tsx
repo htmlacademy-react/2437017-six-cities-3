@@ -20,6 +20,10 @@ export default function SortingFragment ({handleSortingChange, activePlace, acti
     return sort === activePlace ? 'places__option--active' : '';
   }
 
+  function toggleDropdown () {
+    setOpen(!isOpen);
+  }
+
   function handleSortClick (event :MouseEvent<HTMLUListElement>) {
     const element = event.target as HTMLLIElement;
     const textSorting:string = element.textContent;
@@ -28,15 +32,10 @@ export default function SortingFragment ({handleSortingChange, activePlace, acti
     }
   }
 
-  function handleClick () {
-    setOpen(!isOpen);
-  }
-
-
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span onClick={(handleClick)} className="places__sorting-type" tabIndex={0}>
+      <span onClick={(toggleDropdown)} className="places__sorting-type" tabIndex={0}>
         Popular
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>

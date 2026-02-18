@@ -4,6 +4,7 @@ import ListReview from './list-review.tsx';
 import OfferGallery from './gallery-fragment.tsx';
 import { AuthorizationStatus } from '../../../const.ts';
 import ButtonBookmark from '../../../components/card-block/button-bookmark.tsx';
+import Spinner from '../../../components/spinner/spinner.tsx';
 
 interface OfferWrapperProps {
   currentOffer: Offer | null;
@@ -13,7 +14,7 @@ interface OfferWrapperProps {
 export default function OfferWrapper ({currentOffer, authorizationStatus}: OfferWrapperProps): JSX.Element {
 
   if (!currentOffer) {
-    return <div>Загрузка...</div>;
+    return <Spinner/>;
   }
 
   const { id, title, type, price, isFavorite, isPremium, rating, description, goods, host, images, maxAdults, bedrooms } = currentOffer;
