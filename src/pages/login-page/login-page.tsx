@@ -1,6 +1,44 @@
 import { Helmet } from 'react-helmet-async';
+import { useState, ChangeEvent } from 'react';
+import { AuthData } from '../../types/auth-data';
+import { useAppDispatch } from '../../hooks/useStore';
+
+
+import { loginAction } from '../../store/async-actions/login-action';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
+type ChangeHandler = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 export default function LoginPage (): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState<AuthData>({
+    email: '',
+    password: '',
+  });
+
+  function filedChangeHan (evt: ChangeHandler) {
+    const { value, name } = evt.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+    const email = formData.email.trim();
+    const password = formData.password.trim();
+    dispatch(loginAction({ email, password }))
+      .unwrap()
+      .then(() => navigate(AppRoute.Main))
+      .catch(() => {});
+  }
+
+
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -11,14 +49,14 @@ export default function LoginPage (): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input onChange = { filedChangeHan } className="login__input form__input" value={formData.email} type="email" name="email" placeholder="Email" required />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input onChange = { filedChangeHan } className="login__input form__input" value={formData.password} type="password" name="password" placeholder="Password" required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

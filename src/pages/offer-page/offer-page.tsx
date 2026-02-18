@@ -1,42 +1,36 @@
-import OfferGallery from './components/gallery-fragment.tsx';
 import OfferWrapper from './components/offer__wrapper.tsx';
 import CardBlock from '../../components/card-block/card-block.tsx';
 import MapBlock from '../../components/map-block/map-block.tsx';
 
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useStore.ts';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks/useStore.ts';
 
-import { Offer } from '../../types-props.ts';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferById } from '../../store/async-actions/offer-action.ts';
 
-import { AuthorizationStatus } from '../../const.ts';
 
-interface OfferPageProps {
-  authorizationStatus: AuthorizationStatus;
-}
+export default function OfferPage (): JSX.Element {
 
-function getSelectedOffer (offers: Offer[], currentOffer?: Offer) {
-  if(!currentOffer) {
-    return [];
-  }
+  const currentOffer = useAppSelector((state) => state.offer);
+  const nearby = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector((state) => state.authStatus);
 
-  return offers.filter((offer) => (
-    offer.id !== currentOffer.id &&
-    offer.city.name === currentOffer?.city.name
-  )).slice(0, 3);
-}
-
-export default function OfferPage ({ authorizationStatus } : OfferPageProps): JSX.Element {
-
-  const offers = useAppSelector((state) => state.offers);
+  const dispatch = useAppDispatch();
 
   const { id } = useParams<{ id: string }>(); // получаем текущее id стр.
 
-  const currentOffer = offers.find((offer) => offer.id === id) as Offer; // находит по id конкретный offer
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferById(id));
+      dispatch(fetchNearbyOffersAction(id));
+      dispatch(fetchCommentsAction(id));
+    }
+  }, [dispatch, id]);
 
-  const nearbyOffers = getSelectedOffer(offers, currentOffer); // находим ближайшие предложения, разные id, одно name
 
-  const mapOffers = currentOffer ? [currentOffer, ...nearbyOffers] : [];
+  const newNearby = nearby.slice(0, 3);
+  const mapOffers = currentOffer ? [currentOffer, ...nearby] : [];
 
 
   return (
@@ -46,22 +40,23 @@ export default function OfferPage ({ authorizationStatus } : OfferPageProps): JS
       </Helmet>
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferGallery/>
           <OfferWrapper
             currentOffer = {currentOffer}
             authorizationStatus = {authorizationStatus}
           />
-          <MapBlock
-            offers = { mapOffers }
-            activeOfferId = { currentOffer.id }
-            className="offer__map map"
-          />
+          {currentOffer && (
+            <MapBlock
+              offers={mapOffers}
+              activeOfferId={currentOffer.id}
+              className="offer__map map"
+            />
+          )}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighborhood</h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.map((offer) => (
+              {newNearby.map((offer) => (
                 <CardBlock
                   key = {offer.id}
                   offer={offer}

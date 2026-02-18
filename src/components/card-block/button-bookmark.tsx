@@ -1,26 +1,44 @@
-import { toggleFavorite } from '../../store/action.ts';
+import { favoriteAction } from '../../store/async-actions/favorite-action.ts';
 import { useAppDispatch } from '../../hooks/useStore.ts';
 import { STYLES } from './const.ts';
 
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useStore.ts';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { fetchFavoritesAction } from '../../store/async-actions/favorite-action.ts';
 interface ButtonBookmarkProps {
   id: string;
   isFavorite?: boolean;
   variant: 'card' | 'offer';
 }
 
-export default function ButtonBookmark ({ id, isFavorite, variant}:ButtonBookmarkProps) {
+export default function ButtonBookmark ({ id, isFavorite = false, variant}:ButtonBookmarkProps) {
 
   const { name, width, height } = STYLES[variant];
 
-  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.authStatus);
+  const isAuthorized = authStatus === AuthorizationStatus.Auth;
 
-  function handleStatusButton (value:string) {
-    dispatch(toggleFavorite(value));
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  function handleStatusButton () {
+    const status = isFavorite ? 0 : 1;
+    if(!isAuthorized) {
+      navigate (AppRoute.Login);
+      return;
+    }
+    const doAction = async () => {
+      await dispatch(favoriteAction({ offerId: id, status })); // ЖДЕМ ответ от сервера
+      dispatch(fetchFavoritesAction()); // ТОЛЬКО ПОТОМ запрашиваем свежий список
+    };
+
+    doAction();
   }
 
   return (
     <button
-      onClick = {() => handleStatusButton(id)}
+      onClick = {handleStatusButton}
       className={`${name}__bookmark-button button
         ${isFavorite ? `${name}__bookmark-button--active` : ''}`}
       type="button"
