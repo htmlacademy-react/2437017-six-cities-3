@@ -5,6 +5,15 @@ export default function ListReview () {
 
   const comments:CommentData[] = useAppSelector((state) => state.comments || []);
 
+  // Функция для форматирования даты
+  const formatReviewDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en', {
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
   return (
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
@@ -30,7 +39,7 @@ export default function ListReview () {
               <p className="reviews__text">
                 {comment.comment}
               </p>
-              <time className="reviews__time" dateTime="2019-04-24">{comment.date}</time>
+              <time className="reviews__time" dateTime={comment.date}>{formatReviewDate(comment.date)}</time>
             </div>
           </li>
         )

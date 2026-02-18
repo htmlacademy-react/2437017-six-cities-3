@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { fetchAllOffers } from './async-actions/offers-action';
-import { fetchCommentsAction, fetchOfferById } from './async-actions/offer-action';
+import { commentAction, fetchCommentsAction, fetchOfferById } from './async-actions/offer-action';
 
 import { fetchFavoritesAction, favoriteAction } from './async-actions/favorite-action';
 import { requireAuthorization } from './action';
@@ -79,6 +79,10 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(fetchCommentsAction.rejected, (state) => {
       state.comments = []; // при ошибке - пустой массив
+    })
+
+    .addCase(commentAction.fulfilled, (state, action) => {
+      state.comments = [action.payload, ...state.comments];
     })
 
     .addCase(loginAction.fulfilled, (state, action) => {

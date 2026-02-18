@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Offer } from '../../types/offer-data';
 import { State, AppDispatch } from '../type-state';
 import { APIRoute } from '../../const';
-import { CommentData } from '../../types/comment-data';
+import { CommentData, NewCommentData } from '../../types/comment-data';
 
 
 export const fetchOfferById = createAsyncThunk<Offer, string,{
@@ -43,6 +43,25 @@ export const fetchCommentsAction = createAsyncThunk<CommentData[], string, {
   'offer/fetchComments',
   async (offerId: string, { extra: api }) => {
     const { data } = await api.get<CommentData[]>(`${APIRoute.Comments}/${offerId}`);
+    return data;
+  }
+);
+
+//Добавить новый комментарий
+
+type PostCommentProps = {
+  offerId: string;
+  comment: NewCommentData;
+}
+
+export const commentAction = createAsyncThunk<CommentData, PostCommentProps, {
+  state: State;
+  dispatch: AppDispatch;
+  extra: AxiosInstance;
+}>(
+  'comments/post',
+  async ({offerId, comment}, { extra: api }) => {
+    const { data } = await api.post<CommentData>(`${APIRoute.Comments}/${offerId}`, comment);
     return data;
   }
 );

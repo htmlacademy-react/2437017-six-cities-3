@@ -11,3 +11,8 @@ type user = {
   avatarUrl: string;
   isPro: boolean;
 };
+
+export type NewCommentData = {
+  comment: string;
+  rating: number;
+};

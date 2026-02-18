@@ -20,7 +20,7 @@ export default function LoginPage (): JSX.Element {
     password: '',
   });
 
-  function fildChangeHan (evt: ChangeHandler) {
+  function filedChangeHan (evt: ChangeHandler) {
     const { value, name } = evt.target;
     setFormData({
       ...formData,
@@ -52,11 +52,11 @@ export default function LoginPage (): JSX.Element {
             <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input onChange = { fildChangeHan } className="login__input form__input" value={formData.email} type="email" name="email" placeholder="Email" required />
+                <input onChange = { filedChangeHan } className="login__input form__input" value={formData.email} type="email" name="email" placeholder="Email" required />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input onChange = { fildChangeHan } className="login__input form__input" value={formData.password} type="password" name="password" placeholder="Password" required />
+                <input onChange = { filedChangeHan } className="login__input form__input" value={formData.password} type="password" name="password" placeholder="Password" required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
