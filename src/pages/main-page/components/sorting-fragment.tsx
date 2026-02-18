@@ -1,13 +1,20 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { SORT_OPTIONS } from '../../../const';
 
 interface SortingFragmentProps {
   handleSortingChange: (sorting: string) => void;
   activePlace:string;
+  activeCity: string;
 }
 
-export default function SortingFragment ({handleSortingChange, activePlace}:SortingFragmentProps) :JSX.Element {
+export default function SortingFragment ({handleSortingChange, activePlace, activeCity}:SortingFragmentProps) :JSX.Element {
+
+  const [isOpen, setOpen] = useState(false);
+
+  useEffect(()=> {
+    setOpen(false);
+  },[activeCity]);
 
   function getActiveClass (sort: string): string {
     return sort === activePlace ? 'places__option--active' : '';
@@ -21,17 +28,21 @@ export default function SortingFragment ({handleSortingChange, activePlace}:Sort
     }
   }
 
+  function handleClick () {
+    setOpen(!isOpen);
+  }
+
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span onClick={(handleClick)} className="places__sorting-type" tabIndex={0}>
         Popular
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul onClick={(handleSortClick)} className="places__options places__options--custom places__options--opened">
+      <ul onClick={(handleSortClick)} className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
         {SORT_OPTIONS.map((sort) => (
           <li key={sort}
             className={`places__option ${getActiveClass(sort)}`}

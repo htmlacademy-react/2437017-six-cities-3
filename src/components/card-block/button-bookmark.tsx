@@ -2,8 +2,9 @@ import { favoriteAction } from '../../store/async-actions/favorite-action.ts';
 import { useAppDispatch } from '../../hooks/useStore.ts';
 import { STYLES } from './const.ts';
 
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useStore.ts';
-import { AuthorizationStatus } from '../../const.ts';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import { fetchFavoritesAction } from '../../store/async-actions/favorite-action.ts';
 interface ButtonBookmarkProps {
   id: string;
@@ -17,12 +18,16 @@ export default function ButtonBookmark ({ id, isFavorite = false, variant}:Butto
 
   const authStatus = useAppSelector((state) => state.authStatus);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
-  const isDisabled = !isAuthorized;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function handleStatusButton () {
     const status = isFavorite ? 0 : 1;
+    if(!isAuthorized) {
+      navigate (AppRoute.Login);
+      return;
+    }
     const doAction = async () => {
       await dispatch(favoriteAction({ offerId: id, status })); // ЖДЕМ ответ от сервера
       dispatch(fetchFavoritesAction()); // ТОЛЬКО ПОТОМ запрашиваем свежий список
@@ -33,7 +38,6 @@ export default function ButtonBookmark ({ id, isFavorite = false, variant}:Butto
 
   return (
     <button
-      disabled = {isDisabled}
       onClick = {handleStatusButton}
       className={`${name}__bookmark-button button
         ${isFavorite ? `${name}__bookmark-button--active` : ''}`}

@@ -53,6 +53,7 @@ export default function ListOffers ({filteredOffers, activeCity, handleHover} :L
       <SortingFragment
         handleSortingChange = { handleSortingChange }
         activePlace = { activePlace }
+        activeCity = { activeCity }
       />
       <div className="cities__places-list places__list tabs__content">
         { sortingCards.map((offer) => (

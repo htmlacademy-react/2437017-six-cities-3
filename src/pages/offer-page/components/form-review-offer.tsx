@@ -7,6 +7,9 @@ import { useParams } from 'react-router-dom';
 type ChangeHandler = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 export default function ReviewForm () {
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
@@ -37,21 +40,24 @@ export default function ReviewForm () {
     evt.preventDefault();
     const { rating, comment } = formData;
 
-    if (!id) {
+    if (!id || !isValid) {
       return;
     }
 
-    if(isValid){
-      dispatch(commentAction({
-        offerId: id,
-        comment:{rating, comment},
-      }))
-        .unwrap()
-        .then(() => {
-          setFormData({ rating: 0, comment: '' });
-        })
-        .catch(() => {});
-    }
+    setIsSubmitting(true);
+
+    dispatch(commentAction({
+      offerId: id,
+      comment: { rating, comment },
+    }))
+      .unwrap()
+      .then(() => {
+        setFormData({ rating: 0, comment: '' });
+        setIsSubmitting(false);
+      })
+      .catch(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -60,8 +66,8 @@ export default function ReviewForm () {
       <div className="reviews__rating-form form__rating">
         {RATING_STARS.map(({value , title}) => (
           <Fragment key={value}>
-            <input onChange={ fieldChangeHandle } className="form__rating-input visually-hidden" name="rating" value={value} id={`${value}"-stars"`} type="radio" checked={formData.rating === value}/>
-            <label htmlFor={`${value}"-stars"`} className="reviews__rating-label form__rating-label" title={title}>
+            <input onChange={ fieldChangeHandle } className="form__rating-input visually-hidden" name="rating" value={value} id={`${value}-stars`} type="radio" checked={formData.rating === value}/>
+            <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={title}>
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
@@ -74,7 +80,7 @@ export default function ReviewForm () {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled = {!isValid}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled = {!isValid || isSubmitting}>Submit</button>
       </div>
     </form>
   );

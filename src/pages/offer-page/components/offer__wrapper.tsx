@@ -1,5 +1,5 @@
 import { Offer } from '../../../types/offer-data.ts';
-import ReviewForm from './from-review-offer.tsx';
+import ReviewForm from './form-review-offer.tsx';
 import ListReview from './list-review.tsx';
 import OfferGallery from './gallery-fragment.tsx';
 import { AuthorizationStatus } from '../../../const.ts';
