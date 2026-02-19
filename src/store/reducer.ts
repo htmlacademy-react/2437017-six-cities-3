@@ -4,7 +4,7 @@ import { fetchAllOffers } from './async-actions/offers-action';
 import { commentAction, fetchCommentsAction, fetchOfferById } from './async-actions/offer-action';
 
 import { fetchFavoritesAction, favoriteAction } from './async-actions/favorite-action';
-import { requireAuthorization } from './action';
+import { requireAuthorization, setError } from './action';
 import { loginAction, logoutAction } from './async-actions/login-action';
 import { fetchNearbyOffersAction } from './async-actions/offer-action';
 
@@ -23,6 +23,7 @@ type OffersState = {
   authStatus: AuthorizationStatus;
   userData: UserData | null;
   favorites: Offer[];
+  error: string | null;
 }
 
 const initialState:OffersState = {
@@ -34,6 +35,7 @@ const initialState:OffersState = {
   authStatus: AuthorizationStatus.Unknown,
   userData: null,
   favorites: [],
+  error: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -125,5 +127,10 @@ export const reducer = createReducer(initialState, (builder) => {
       if (state.offer?.id === updatedOffer.id) {
         state.offer = updatedOffer;
       }
+    })
+
+    /*Действие изм. ключа error*/
+    .addCase(setError,(state, action) => {
+      state.error = action.payload;
     });
 });

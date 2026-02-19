@@ -30,7 +30,7 @@ export default function OfferPage (): JSX.Element {
 
 
   const newNearby = nearby.slice(0, 3);
-  const mapOffers = currentOffer ? [currentOffer, ...nearby] : [];
+  const mapOffers = currentOffer ? [currentOffer, ...newNearby] : [];
 
 
   return (
