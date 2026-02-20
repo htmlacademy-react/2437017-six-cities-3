@@ -20,7 +20,6 @@ export default function SortingFragment ({handleSortingChange, activePlace, acti
     return sort === activePlace ? 'places__option--active' : '';
   }
 
-
   function toggleDropdown () {
     setOpen(!isOpen);
   }

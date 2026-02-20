@@ -13,7 +13,6 @@ import { RequestStatus, AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
 import { CommentData } from '../types/comment-data';
 
-
 type OffersState = {
   offers: Offer[];
   offer: Offer | null;
@@ -41,6 +40,7 @@ const initialState:OffersState = {
 export const reducer = createReducer(initialState, (builder) => {
   builder
 
+    /*Получение Offers*/
     .addCase(fetchAllOffers.pending, (state) => {
       state.status = RequestStatus.Loading;
     })
@@ -54,6 +54,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.status = RequestStatus.Failed;
     })
 
+    /*Получение Offer по id*/
     .addCase(fetchOfferById .pending, (state) => {
       state.status = RequestStatus.Loading;
     })
@@ -68,6 +69,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offer = null;
     })
 
+    /*Получение Offers по близости выбранного Offer по id*/
     .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
       state.nearbyOffers = action.payload; // сохраняем предложения рядом
     })
@@ -75,6 +77,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.nearbyOffers = []; // при ошибке - пустой массив
     })
 
+    /*Получение комментариев*/
     .addCase(fetchCommentsAction.fulfilled, (state, action) => {
       state.comments = action.payload;
     })
@@ -83,10 +86,12 @@ export const reducer = createReducer(initialState, (builder) => {
       state.comments = []; // при ошибке - пустой массив
     })
 
+    /*Добавление новых комментариев*/
     .addCase(commentAction.fulfilled, (state, action) => {
       state.comments = [action.payload, ...state.comments];
     })
 
+    /*Вход в акаунт*/
     .addCase(loginAction.fulfilled, (state, action) => {
       state.userData = action.payload;
       state.authStatus = AuthorizationStatus.Auth;
@@ -97,9 +102,25 @@ export const reducer = createReducer(initialState, (builder) => {
       state.authStatus = AuthorizationStatus.NoAuth;
     })
 
+    /*Выход из акаунта*/
     .addCase(logoutAction.fulfilled, (state) => {
       state.userData = null;
       state.authStatus = AuthorizationStatus.NoAuth;
+      state.offers = state.offers.map((offer) => ({
+        ...offer,
+        isFavorite: false,
+      }));
+
+      if (state.offer) {
+        state.offer.isFavorite = false;
+      }
+
+      state.nearbyOffers = state.nearbyOffers.map((offer) => ({
+        ...offer,
+        isFavorite: false
+      }));
+
+      state.favorites = [];
     })
 
     .addCase(logoutAction.rejected, (state) => {
@@ -107,6 +128,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.authStatus = AuthorizationStatus.NoAuth;
     })
 
+    /*Статус авторизации*/
     .addCase(requireAuthorization, (state, action) => {
       state.authStatus = action.payload;
     })

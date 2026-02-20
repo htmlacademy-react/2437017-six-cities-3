@@ -8,13 +8,18 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useStore.ts';
 
 import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferById } from '../../store/async-actions/offer-action.ts';
+import { Offer } from '../../types/offer-data.ts';
 
 
 export default function OfferPage (): JSX.Element {
 
+  const offers = useAppSelector((state) => state.offers);
   const currentOffer = useAppSelector((state) => state.offer);
-  const nearby = useAppSelector((state) => state.nearbyOffers);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const authorizationStatus = useAppSelector((state) => state.authStatus);
+
+  const offersInNearby: Offer[] = offers.filter((offer) => nearbyOffers.some((nearby) => nearby.id === offer.id));
+
 
   const dispatch = useAppDispatch();
 
@@ -28,10 +33,8 @@ export default function OfferPage (): JSX.Element {
     }
   }, [dispatch, id]);
 
-
-  const newNearby = nearby.slice(0, 3);
+  const newNearby = offersInNearby.slice(0, 3);
   const mapOffers = currentOffer ? [currentOffer, ...newNearby] : [];
-
 
   return (
     <div className="page">

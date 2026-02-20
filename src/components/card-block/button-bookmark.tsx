@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useStore.ts';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import { fetchFavoritesAction } from '../../store/async-actions/favorite-action.ts';
+import { useState } from 'react';
 interface ButtonBookmarkProps {
   id: string;
   isFavorite?: boolean;
@@ -14,6 +15,7 @@ interface ButtonBookmarkProps {
 
 export default function ButtonBookmark ({ id, isFavorite = false, variant}:ButtonBookmarkProps) {
 
+  const [isPending, setIsPending] = useState(false);
   const { name, width, height } = STYLES[variant];
 
   const authStatus = useAppSelector((state) => state.authStatus);
@@ -23,17 +25,29 @@ export default function ButtonBookmark ({ id, isFavorite = false, variant}:Butto
   const navigate = useNavigate();
 
   function handleStatusButton () {
+
     const status = isFavorite ? 0 : 1;
     if(!isAuthorized) {
       navigate (AppRoute.Login);
       return;
     }
-    const doAction = async () => {
-      await dispatch(favoriteAction({ offerId: id, status })); // ЖДЕМ ответ от сервера
-      dispatch(fetchFavoritesAction()); // ТОЛЬКО ПОТОМ запрашиваем свежий список
-    };
 
-    doAction();
+    // Предотвращаем множественные клики
+    if (isPending) {
+      return;
+    }
+
+    setIsPending(true);
+
+    dispatch(favoriteAction({ offerId: id, status }))
+      .unwrap()
+      .then(() => dispatch(fetchFavoritesAction()))
+      .catch(() => {
+        dispatch(fetchFavoritesAction());
+      })
+      .finally(() => {
+        setIsPending(false);
+      });
   }
 
   return (
