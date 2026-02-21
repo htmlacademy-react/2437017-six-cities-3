@@ -1,5 +1,5 @@
 import SortingFragment from './sorting-fragment.tsx';
-import CardBlock from '../../../components/card-block/card-block.tsx';
+import MemorizedCardBlock from '../../../components/card-block/card-block.tsx';
 import { Offer } from '../../../types/offer-data.ts';
 import { SORT_TYPES } from '../../../const.ts';
 
@@ -57,7 +57,7 @@ export default function ListOffers ({filteredOffers, activeCity, handleHover} :L
       />
       <div className="cities__places-list places__list tabs__content">
         { sortingCards.map((offer) => (
-          <CardBlock
+          <MemorizedCardBlock
             key = { offer.id }
             offer = { offer }
             handleHover = { handleHover }

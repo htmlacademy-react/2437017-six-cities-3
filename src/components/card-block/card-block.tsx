@@ -2,13 +2,14 @@ import ButtonBookmark from './button-bookmark.tsx';
 import { Offer } from '../../types/offer-data.ts';
 
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 
 interface OfferCardProps {
   offer: Offer;
   handleHover?: (offer:Offer | null) => void;
 }
 
-export default function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.Element {
+function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.Element {
 
   const { id, title, type, price, previewImage, isPremium, isFavorite, rating } = offer;
 
@@ -64,3 +65,7 @@ export default function CardBlock({ offer, handleHover, } :OfferCardProps) :JSX.
     </article>
   );
 }
+
+const MemorizedCardBlock = memo(CardBlock);
+
+export default MemorizedCardBlock;

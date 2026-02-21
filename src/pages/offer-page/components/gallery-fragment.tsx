@@ -1,8 +1,10 @@
+import { memo } from 'react';
+
 interface imagesProps {
   images: string[];
 }
 
-export default function OfferGallery ({images}:imagesProps){
+function OfferGallery ({images}:imagesProps){
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">
@@ -15,3 +17,8 @@ export default function OfferGallery ({images}:imagesProps){
     </div>
   );
 }
+
+const MemorizedOfferGallery = memo(OfferGallery);
+
+export default MemorizedOfferGallery;
+

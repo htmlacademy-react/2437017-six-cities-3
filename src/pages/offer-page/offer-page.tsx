@@ -1,5 +1,5 @@
 import OfferWrapper from './components/offer__wrapper.tsx';
-import CardBlock from '../../components/card-block/card-block.tsx';
+import MemorizedCardBlock from '../../components/card-block/card-block.tsx';
 import MapBlock from '../../components/map-block/map-block.tsx';
 
 import { Helmet } from 'react-helmet-async';
@@ -60,7 +60,7 @@ export default function OfferPage (): JSX.Element {
             <h2 className="near-places__title">Other places in the neighborhood</h2>
             <div className="near-places__list places__list">
               {newNearby.map((offer) => (
-                <CardBlock
+                <MemorizedCardBlock
                   key = {offer.id}
                   offer={offer}
                 />
