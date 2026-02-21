@@ -15,13 +15,15 @@ export default function MainPage (): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  // Загружаем данные при монтировании компонента(открытие стр)
-  useEffect(() => {
-    dispatch(fetchAllOffers());
-  }, [dispatch]);
-
   const offers = useAppSelector((state) => state.offers);
   const status = useAppSelector((state) => state.status);
+  const hasAnyFavorite = offers.some((offer) => offer.isFavorite);
+
+  useEffect(() => {
+    if (!hasAnyFavorite) {
+      dispatch(fetchAllOffers());
+    }
+  }, [dispatch, hasAnyFavorite]);
 
   const [activeCity, setActiveCity] = useState('Paris');
 

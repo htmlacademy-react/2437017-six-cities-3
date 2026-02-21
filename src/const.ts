@@ -1,6 +1,4 @@
-const Setting = {
-  VALUE_CARD: 10,
-};
+const TIMEOUT_SHOW_ERROR = 2000;
 
 const CITIES = [
   { city: 'Paris', lat: 48.8566, lon: 2.3522 },
@@ -62,4 +60,4 @@ enum RequestStatus {
   Failed,
 }
 
-export{Setting, CITIES, ZOOM, RATING_STARS, AppRoute, AuthorizationStatus, SORT_OPTIONS, SORT_TYPES, APIRoute, RequestStatus};
+export{TIMEOUT_SHOW_ERROR, CITIES, ZOOM, RATING_STARS, AppRoute, AuthorizationStatus, SORT_OPTIONS, SORT_TYPES, APIRoute, RequestStatus};

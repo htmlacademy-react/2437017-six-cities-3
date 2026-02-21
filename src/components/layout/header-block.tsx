@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/useStore';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/async-actions/login-action';
+import { useCallback } from 'react';
 
 interface HeaderProps {
   showAuthInfo: boolean;
@@ -16,9 +17,9 @@ export default function HeaderBlock ({showAuthInfo} :HeaderProps): JSX.Element {
   const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
 
-  function handleLogout () {
+  const handleLogout = useCallback(() => {
     dispatch(logoutAction());
-  }
+  }, [dispatch]);
 
   return (
     <header className="header">
@@ -63,3 +64,4 @@ export default function HeaderBlock ({showAuthInfo} :HeaderProps): JSX.Element {
     </header>
   );
 }
+

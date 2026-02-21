@@ -1,5 +1,5 @@
 import OfferWrapper from './components/offer__wrapper.tsx';
-import CardBlock from '../../components/card-block/card-block.tsx';
+import MemorizedCardBlock from '../../components/card-block/card-block.tsx';
 import MapBlock from '../../components/map-block/map-block.tsx';
 
 import { Helmet } from 'react-helmet-async';
@@ -8,13 +8,18 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useStore.ts';
 
 import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferById } from '../../store/async-actions/offer-action.ts';
+import { Offer } from '../../types/offer-data.ts';
 
 
 export default function OfferPage (): JSX.Element {
 
+  const offers = useAppSelector((state) => state.offers);
   const currentOffer = useAppSelector((state) => state.offer);
-  const nearby = useAppSelector((state) => state.nearbyOffers);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const authorizationStatus = useAppSelector((state) => state.authStatus);
+
+  const offersInNearby: Offer[] = offers.filter((offer) => nearbyOffers.some((nearby) => nearby.id === offer.id));
+
 
   const dispatch = useAppDispatch();
 
@@ -28,10 +33,8 @@ export default function OfferPage (): JSX.Element {
     }
   }, [dispatch, id]);
 
-
-  const newNearby = nearby.slice(0, 3);
-  const mapOffers = currentOffer ? [currentOffer, ...nearby] : [];
-
+  const newNearby = offersInNearby.slice(0, 3);
+  const mapOffers = currentOffer ? [currentOffer, ...newNearby] : [];
 
   return (
     <div className="page">
@@ -57,7 +60,7 @@ export default function OfferPage (): JSX.Element {
             <h2 className="near-places__title">Other places in the neighborhood</h2>
             <div className="near-places__list places__list">
               {newNearby.map((offer) => (
-                <CardBlock
+                <MemorizedCardBlock
                   key = {offer.id}
                   offer={offer}
                 />

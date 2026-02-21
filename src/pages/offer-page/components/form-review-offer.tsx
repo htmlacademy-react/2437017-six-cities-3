@@ -1,12 +1,12 @@
 import { RATING_STARS } from '../../../const.ts';
-import { useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment, memo } from 'react';
 import { commentAction } from '../../../store/async-actions/offer-action.ts';
 import { useAppDispatch } from '../../../hooks/useStore.ts';
 import { useParams } from 'react-router-dom';
 
 type ChangeHandler = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-export default function ReviewForm () {
+function ReviewForm () {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -85,3 +85,8 @@ export default function ReviewForm () {
     </form>
   );
 }
+
+
+const MemorizedReviewForm = memo(ReviewForm);
+
+export default MemorizedReviewForm;

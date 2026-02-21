@@ -1,7 +1,7 @@
 import { Offer } from '../../../types/offer-data.ts';
-import ReviewForm from './form-review-offer.tsx';
+import MemorizedReviewForm from './form-review-offer.tsx';
 import ListReview from './list-review.tsx';
-import OfferGallery from './gallery-fragment.tsx';
+import MemorizedOfferGallery from './gallery-fragment.tsx';
 import { AuthorizationStatus } from '../../../const.ts';
 import ButtonBookmark from '../../../components/card-block/button-bookmark.tsx';
 import Spinner from '../../../components/spinner/spinner.tsx';
@@ -21,7 +21,7 @@ export default function OfferWrapper ({currentOffer, authorizationStatus}: Offer
 
   return (
     <>
-      <OfferGallery images={images}/>
+      <MemorizedOfferGallery images={images}/>
       <div className="offer__container container">
         <div className="offer__wrapper">
           {isPremium &&
@@ -89,7 +89,7 @@ export default function OfferWrapper ({currentOffer, authorizationStatus}: Offer
           </div>
           <section className="offer__reviews reviews">
             <ListReview/>
-            {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm/>}
+            {authorizationStatus === AuthorizationStatus.Auth && <MemorizedReviewForm/>}
           </section>
         </div>
       </div>

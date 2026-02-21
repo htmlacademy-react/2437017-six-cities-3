@@ -7,6 +7,6 @@ export const requireAuthorization = createAction(
   (status: AuthorizationStatus) => ({ payload: status })
 );
 
-export const toggleFavorite = createAction('card/Favorite', (id:string) => ({payload: id,}));
+export const setError = createAction<string | null>('six-cities/error');
 
 
