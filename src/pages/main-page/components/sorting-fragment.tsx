@@ -3,12 +3,12 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { SORT_OPTIONS } from '../../../const';
 
 interface SortingFragmentProps {
-  handleSortingChange: (sorting: string) => void;
+  onSortingChange: (sorting: string) => void;
   activePlace:string;
   activeCity: string;
 }
 
-export default function SortingFragment ({handleSortingChange, activePlace, activeCity}:SortingFragmentProps) :JSX.Element {
+export default function SortingFragment ({onSortingChange, activePlace, activeCity}:SortingFragmentProps) :JSX.Element {
 
   const [isOpen, setOpen] = useState(false);
 
@@ -20,7 +20,7 @@ export default function SortingFragment ({handleSortingChange, activePlace, acti
     return sort === activePlace ? 'places__option--active' : '';
   }
 
-  function toggleDropdown () {
+  function handleToggleDropdown () {
     setOpen(!isOpen);
   }
 
@@ -28,15 +28,15 @@ export default function SortingFragment ({handleSortingChange, activePlace, acti
     const element = event.target as HTMLLIElement;
     const textSorting: string | null = element.textContent;
     if (textSorting) {
-      handleSortingChange(textSorting);
+      onSortingChange(textSorting);
     }
   }
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>{' '}
-      <span onClick={(toggleDropdown)} className="places__sorting-type" tabIndex={0}>
-        Popular
+      <span onClick={(handleToggleDropdown)} className="places__sorting-type" tabIndex={0}>
+        {activePlace}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
